@@ -33,7 +33,7 @@
     (if (nil? func)
       {:status 404
        :body (str "invalid operator: " op
-                  " (must be one " (apply str (interpose ", " (keys op-map))) ")")
+                  " (must be one of the following: " (apply str (interpose ", " (keys op-map))) ")")
        :headers {}}
       {:status 200
        :body (str "(" op " " a " " b ")\n" ((get op-map op) (Integer. a) (Integer. b)))

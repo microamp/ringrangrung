@@ -28,7 +28,8 @@ Personal experiments with Clojure Ring/Compojure
 ** ``git init``
 ** ``git add .``
 ** ``git commit -m "Initial commit"``
-** ``git push heroku`` (check .git/config in advance)
+** ``git push heroku master`` to push to Heroku (check .git/config)
+** ``git push github master`` to push to Github (check .git/config)
 
 ## License
 
