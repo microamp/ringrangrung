@@ -7,22 +7,17 @@
 
 (defn greet [req]
   {:status 200
-   :body "Hello, World! (now with automatic reload!)"
-   :headers {}})
-
-(defn goodbye [req]
-  {:status 200
-   :body "Goodbye, Cruel World!"
+   :body "welcome to ringrangrung"
    :headers {}})
 
 (defn about [req]
   {:status 200
-   :body "My name is microamp. This is my first Ring (Clojure) web app. Be nice. :)"
+   :body "about ringrangrung"
    :headers {}})
 
-(defn yo [req]
+(defn hello [req]
   {:status 200
-   :body (str "Yo, " (get-in req [:route-params :name]) "!")
+   :body (str "hello, " (get-in req [:route-params :name]))
    :headers {}})
 
 (def op-map {"+" +
@@ -37,19 +32,19 @@
         func (get op-map op)]
     (if (nil? func)
       {:status 404
-       :body (str "Invalid operator: " op)
+       :body (str "invalid operator: " op
+                  " (must be one " (apply str (interpose ", " (keys op-map))) ")")
        :headers {}}
       {:status 200
-       :body (str a " " op " " b " = " ((get op-map op) (Integer. a) (Integer. b)))
+       :body (str "(" op " " a " " b ")\n" ((get op-map op) (Integer. a) (Integer. b)))
        :headers {}})))
 
 (defroutes app
   (GET "/" [] greet)
-  (GET "/goodbye" [] goodbye)
   (GET "/about" [] about)
+  (GET "/hello/:name" [] hello)
+  (GET "/calc/:op/:a/:b" [] calc)
   (GET "/request" [] handle-dump)
-  (GET "/yo/:name" [] yo)
-  (GET "/calc/:a/:op/:b" [] calc)
   (not-found "Page not found."))
 
 (defn -main [port]
