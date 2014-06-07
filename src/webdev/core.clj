@@ -1,9 +1,12 @@
 (ns webdev.core
+  (:require [webdev.item.model :as item])
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.reload :refer [wrap-reload]]
             [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [not-found]]
             [ring.handler.dump :refer [handle-dump]]))
+
+(def db "jdbc:postgresql://localhost/webdev?user=postgres")
 
 (defn greet [req]
   {:status 200
@@ -48,9 +51,11 @@
   (not-found "Page not found."))
 
 (defn -main [port]
-  (jetty/run-jetty app
-                   {:port (Integer. port)}))
+  (item/create-table db)
+  (println "table created!")
+  (jetty/run-jetty app {:port (Integer. port)}))
 
 (defn -dev-main [port]
-  (jetty/run-jetty (wrap-reload #'app)
-                   {:port (Integer. port)}))
+  (item/create-table db)
+  (println "table created!")
+  (jetty/run-jetty (wrap-reload #'app) {:port (Integer. port)}))
