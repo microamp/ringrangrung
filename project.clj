@@ -7,7 +7,8 @@
                  [ring "1.3.0"]
                  [compojure "1.1.8"]
                  [org.clojure/java.jdbc "0.3.3"]
-                 [postgresql/postgresql "9.1-901-1.jdbc4"]]
+                 [postgresql/postgresql "9.1-901-1.jdbc4"]
+                 [hiccup "1.0.5"]]
   :min-lein-version "2.0.0"
   :uberjar-name "webdev.jar"
   :main webdev.core
