@@ -1,6 +1,8 @@
 (ns webdev.item.handler
   (:require [webdev.item.model :refer [create-item
-                                       read-items]])
+                                       read-items
+                                       update-item
+                                       delete-item]])
   (:require [webdev.item.view :refer [item-page]])
 )
 
@@ -19,3 +21,28 @@
     {:status 302
      :headers {"Location" "/item"}
      :body ""}))
+
+(defn handle-delete-item [req]
+  (let [db (:webdev/db req)
+        item-id (java.util.UUID/fromString (get-in req [:route-params :item-id]))
+        deleted? (delete-item db item-id)]
+    (if deleted?
+      {:status 302
+       :headers {"Location" "/item"}
+       :body ""}
+      {:status 404
+       :headers {}
+       :body "Item not found"})))
+
+(defn handle-update-item [req]
+  (let [db (:webdev/db req)
+        item-id (java.util.UUID/fromString (get-in req [:route-params :item-id]))
+        checked (get-in req [:params "checked"])
+        updated? (update-item db item-id (= "true" checked))]
+    (if updated?
+      {:status 302
+       :headers {"Location" "/item"}
+       :body ""}
+      {:status 404
+       :headers {}
+       :body "Item not found"})))
